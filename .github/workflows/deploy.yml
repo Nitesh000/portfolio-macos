@@ -28,12 +28,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Debug step - remove after fixing
-      - name: Debug secrets
-        run: |
-          echo "Account ID length: ${#CLOUDFLARE_ACCOUNT_ID}"
-          echo "Token length: ${#CLOUDFLARE_API_TOKEN}"
-          echo "Account ID (first 8 chars): ${CLOUDFLARE_ACCOUNT_ID:0:8}"
+      - name: List projects (debug)
+        run: npx wrangler pages project list
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
