@@ -5,22 +5,25 @@ import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { visualizer } from "rollup-plugin-visualizer";
 
-// https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
-    visualizer({
-      filename: "dist/stats.html",
-      open: true,
-      gzipSize: true,
-      brotliSize: true,
-    }),
+    // Only use visualizer in development
+    ...(mode === "development"
+      ? [
+          visualizer({
+            filename: "dist/stats.html",
+            open: true,
+            gzipSize: true,
+            brotliSize: true,
+          }),
+        ]
+      : []),
   ],
-
   server: {
     open: true,
-    port: mode == "production" ? "5173" : "5174",
+    port: mode === "production" ? 5173 : 5174, // Remove quotes from numbers
   },
   resolve: {
     alias: {
