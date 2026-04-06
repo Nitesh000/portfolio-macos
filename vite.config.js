@@ -1,15 +1,16 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { resolve, dirname } from "path";
+import { resolve } from "path";
 import { fileURLToPath } from "url";
 import { visualizer } from "rollup-plugin-visualizer";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
-    // Only use visualizer in development
     ...(mode === "development"
       ? [
           visualizer({
@@ -23,24 +24,15 @@ export default defineConfig(({ mode }) => ({
   ],
   server: {
     open: true,
-    port: mode === "production" ? 5173 : 5174, // Remove quotes from numbers
+    port: mode === "production" ? 5173 : 5174,
   },
   resolve: {
     alias: {
-      "#components": resolve(
-        dirname(fileURLToPath(import.meta.url)),
-        "src/components",
-      ),
-      "#constants": resolve(
-        dirname(fileURLToPath(import.meta.url)),
-        "src/constants",
-      ),
-      "#store": resolve(dirname(fileURLToPath(import.meta.url)), "src/store"),
-      "#hoc": resolve(dirname(fileURLToPath(import.meta.url)), "src/hoc"),
-      "#windows": resolve(
-        dirname(fileURLToPath(import.meta.url)),
-        "src/windows",
-      ),
+      "#components": resolve(__dirname, "src/components"),
+      "#constants": resolve(__dirname, "src/constants"),
+      "#store": resolve(__dirname, "src/store"),
+      "#hoc": resolve(__dirname, "src/hoc"),
+      "#windows": resolve(__dirname, "src/windows"),
     },
   },
   build: {
