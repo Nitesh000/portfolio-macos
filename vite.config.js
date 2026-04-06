@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
 import { fileURLToPath } from "url";
-import { visualizer } from "rollup-plugin-visualizer";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
@@ -11,16 +10,16 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
-    ...(mode === "development"
-      ? [
-          visualizer({
-            filename: "dist/stats.html",
-            open: true,
-            gzipSize: true,
-            brotliSize: true,
-          }),
-        ]
-      : []),
+    // ...(mode === "development"
+    //   ? [
+    //       visualizer({
+    //         filename: "dist/stats.html",
+    //         open: true,
+    //         gzipSize: true,
+    //         brotliSize: true,
+    //       }),
+    //     ]
+    //   : []),
   ],
   server: {
     open: true,
