@@ -93,8 +93,8 @@ export const songs = [
     id: 1,
     title: "Your Song Title",
     cover: "/path/to/cover.jpg",
-    src: "/path/to/audio.mp3"
-  }
+    src: "/path/to/audio.mp3",
+  },
 ];
 ```
 
