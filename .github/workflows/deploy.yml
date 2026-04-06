@@ -28,7 +28,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: List projects (debug)
+      - name: List all Pages projects
         run: npx wrangler pages project list
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
