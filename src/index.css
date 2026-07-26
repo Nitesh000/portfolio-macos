@@ -52,6 +52,38 @@ body {
     cursor: grabbing !important;
   }
 
+  .resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: se-resize;
+    z-index: 9999;
+    background: radial-gradient(circle, #888 1.5px, transparent 1.5px) 4px 4px,
+                radial-gradient(circle, #888 1.5px, transparent 1.5px) 9px 9px;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .window-root:hover .resize-handle {
+    opacity: 0.5;
+  }
+
+  .window-root {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .window-root > *:not(#window-header):not(.resize-handle) {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+  }
+
   nav {
     @apply flex justify-between items-center bg-white/50 backdrop-blur-3xl p-1 px-5 select-none;
 

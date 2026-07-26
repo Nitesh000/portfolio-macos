@@ -1,14 +1,13 @@
 import useWindowStore from "#store/window";
 import { useGSAP } from "@gsap/react";
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useEffect } from "react";
 import gsap from "gsap";
 import Draggable from "gsap/Draggable";
-import { useEffect } from "react";
 
 const WindowWrapper = (Component, windowKey) => {
   const Wrapped = React.memo((props) => {
     const focusWindow = useWindowStore((state) => state.focusWindow);
-    const moveWindow = useWindowStore((state) => state.focusWindow);
+    const moveWindow = useWindowStore((state) => state.moveWindow);
     const resizeWindow = useWindowStore((state) => state.resizeWindow);
     const windowState = useWindowStore((state) => state.windows[windowKey]);
     const { isOpen, isMaximized, zIndex, size, position } = windowState || {};
@@ -69,83 +68,7 @@ const WindowWrapper = (Component, windowKey) => {
 
       // visibility based on open state
       el.style.display = isOpen ? "block" : "none";
-
-      // toggle maximized styles
-      if (isMaximized) {
-        // save current position/size once
-        if (!el.dataset.prevTop) {
-          const cs = window.getComputedStyle(el);
-          el.dataset.prevTop = cs.top;
-          el.dataset.prevLeft = cs.left;
-          el.dataset.prevWidth = cs.width;
-          el.dataset.prevHeight = cs.height;
-          el.dataset.prevPosition = cs.position;
-          el.dataset.prevTransform = cs.transform;
-          el.dataset.prevMaxWidth = cs.maxWidth;
-          el.dataset.prevRight = cs.right;
-          el.dataset.prevBottom = cs.bottom;
-        }
-        // make it independent from parent constraints
-        el.style.position = "fixed";
-        el.style.top = "0";
-        el.style.left = "0";
-        el.style.right = "0";
-        el.style.bottom = "0";
-        // ensure it can span full viewport
-        el.style.width = "100dvw";
-        el.style.height = "100dvh";
-        el.style.maxWidth = "none";
-        // neutralize any translate from CSS (e.g., -translate-y-1/2)
-        el.style.transform = "none";
-      } else {
-        // restore to previous size/position if saved
-        if (el.dataset.prevTop) {
-          // restore primary box metrics
-          el.style.top = position.y;
-          el.style.left = position.x;
-          el.style.width = size.width;
-
-          // For contact window, always reset height to auto to accommodate dynamic content
-          if (windowKey === "contact") {
-            el.style.height = "";
-          } else if (el.dataset.prevHeight !== "auto") {
-            el.style.height = size.height;
-          } else {
-            el.style.height = "";
-          }
-
-          // restore position and optional constraints
-          if (el.dataset.prevPosition)
-            el.style.position = el.dataset.prevPosition;
-          if (el.dataset.prevMaxWidth)
-            el.style.maxWidth = el.dataset.prevMaxWidth;
-          if (el.dataset.prevTransform)
-            el.style.transform = el.dataset.prevTransform;
-          // clear edges that were set for maximized
-          el.style.right = "";
-          el.style.bottom = "";
-          // cleanup
-          delete el.dataset.prevTop;
-          delete el.dataset.prevLeft;
-          delete el.dataset.prevWidth;
-          delete el.dataset.prevHeight;
-          delete el.dataset.prevPosition;
-          delete el.dataset.prevTransform;
-          delete el.dataset.prevMaxWidth;
-          delete el.dataset.prevRight;
-          delete el.dataset.prevBottom;
-        } else {
-          // reset to auto so component/style sheets can manage sizing/positioning
-          el.style.right = "";
-          el.style.bottom = "";
-          el.style.width = "";
-          el.style.height = "";
-          el.style.maxWidth = "";
-          el.style.transform = "";
-        }
-        // keep previously dragged top/left as set by Draggable (restored above if existed)
-      }
-    }, [isOpen, isMaximized]);
+    }, [isOpen]);
 
     useEffect(() => {
       const el = ref.current;
@@ -175,6 +98,7 @@ const WindowWrapper = (Component, windowKey) => {
       };
 
       const onMouseDown = (e) => {
+        if (e.button !== 0) return; // Only allow left click
         e.preventDefault();
 
         startX = e.clientX;
@@ -196,19 +120,28 @@ const WindowWrapper = (Component, windowKey) => {
         ref={ref}
         style={{
           zIndex,
-          height: size.height,
-          width: size.width,
+          position: isMaximized ? "fixed" : "absolute",
+          top: isMaximized ? "0px" : undefined,
+          left: isMaximized ? "0px" : undefined,
+          right: isMaximized ? "0px" : undefined,
+          bottom: isMaximized ? "0px" : undefined,
+          width: isMaximized ? "100dvw" : (size?.width ? `${size.width}px` : undefined),
+          height: isMaximized ? "100dvh" : (size?.height ? `${size.height}px` : undefined),
+          maxWidth: isMaximized ? "none" : undefined,
+          transform: isMaximized ? "none" : (position ? `translate3d(${position.x}px, ${position.y}px, 0px)` : undefined),
         }}
         className="absolute window-root"
         onClick={() => focusWindow(windowKey)}
       >
         <Component {...props} />
+        {!isMaximized && <div className="resize-handle" />}
       </section>
     );
   });
 
-  Wrapped.displayName = `WindowWrapper(
-    ${Component.displayName || Component.name || "Component"})`;
+  Wrapped.displayName = `WindowWrapper(${
+    Component.displayName || Component.name || "Component"
+  })`;
 
   return Wrapped;
 };
