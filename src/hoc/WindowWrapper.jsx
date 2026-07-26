@@ -3,12 +3,15 @@ import { useGSAP } from "@gsap/react";
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import Draggable from "gsap/Draggable";
+import { useEffect } from "react";
 
 const WindowWrapper = (Component, windowKey) => {
   const Wrapped = React.memo((props) => {
     const focusWindow = useWindowStore((state) => state.focusWindow);
+    const moveWindow = useWindowStore((state) => state.focusWindow);
+    const resizeWindow = useWindowStore((state) => state.resizeWindow);
     const windowState = useWindowStore((state) => state.windows[windowKey]);
-    const { isOpen, isMaximized, zIndex } = windowState || {};
+    const { isOpen, isMaximized, zIndex, size, position } = windowState || {};
     const ref = useRef(null);
 
     // open animation
@@ -48,6 +51,9 @@ const WindowWrapper = (Component, windowKey) => {
 
       const [instance] = Draggable.create(el, {
         onPress: () => focusWindow(windowKey),
+        onDragEnd: function () {
+          moveWindow(windowKey, { x: this.x, y: this.y });
+        },
         trigger: el.querySelector(".window-drag-handle"),
         ignore: "input[type='range'], button, .sliders",
         cursor: "grab", // More visible on white backgrounds
@@ -95,15 +101,15 @@ const WindowWrapper = (Component, windowKey) => {
         // restore to previous size/position if saved
         if (el.dataset.prevTop) {
           // restore primary box metrics
-          el.style.top = el.dataset.prevTop;
-          el.style.left = el.dataset.prevLeft;
-          el.style.width = el.dataset.prevWidth;
+          el.style.top = position.y;
+          el.style.left = position.x;
+          el.style.width = size.width;
 
           // For contact window, always reset height to auto to accommodate dynamic content
           if (windowKey === "contact") {
             el.style.height = "";
           } else if (el.dataset.prevHeight !== "auto") {
-            el.style.height = el.dataset.prevHeight;
+            el.style.height = size.height;
           } else {
             el.style.height = "";
           }
@@ -141,11 +147,58 @@ const WindowWrapper = (Component, windowKey) => {
       }
     }, [isOpen, isMaximized]);
 
+    useEffect(() => {
+      const el = ref.current;
+      if (!el || isMaximized) return;
+
+      const handle = el.querySelector(".resize-handle");
+      if (!handle) return;
+
+      let startX, startY, startW, startH;
+
+      const onMouseMove = (e) => {
+        const newW = startW + (e.clientX - startX);
+        const newH = startH + (e.clientY - startY);
+
+        el.style.width = `${Math.max(300, newW)}px`;
+        el.style.height = `${Math.max(300, newH)}px`;
+      };
+
+      const onMouseUp = () => {
+        resizeWindow(windowKey, {
+          width: el.offsetWidth,
+          height: el.offsetHeight,
+        });
+
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
+      };
+
+      const onMouseDown = (e) => {
+        e.preventDefault();
+
+        startX = e.clientX;
+        startY = e.clientY;
+        startW = el.offsetWidth;
+        startH = el.offsetHeight;
+
+        window.addEventListener("mousemove", onMouseMove);
+        window.addEventListener("mouseup", onMouseUp);
+      };
+
+      handle.addEventListener("mousedown", onMouseDown);
+      return () => handle.removeEventListener("mousedown", onMouseDown);
+    }, [isOpen, isMaximized]);
+
     return (
       <section
         id={windowKey}
         ref={ref}
-        style={{ zIndex }}
+        style={{
+          zIndex,
+          height: size.height,
+          width: size.width,
+        }}
         className="absolute window-root"
         onClick={() => focusWindow(windowKey)}
       >
@@ -161,4 +214,3 @@ const WindowWrapper = (Component, windowKey) => {
 };
 
 export default WindowWrapper;
-

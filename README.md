@@ -1,4 +1,4 @@
-# macOS-Style Portfolio
+# MacOS-Style Portfolio
 
 A modern, interactive portfolio website built with React that mimics the macOS desktop experience. Features a draggable dock, window management system, and various applications including a music player, photo gallery, and more.
 
@@ -96,6 +96,12 @@ export const songs = [
     src: "/path/to/audio.mp3",
   },
 ];
+```
+
+```mermaid
+flowchart TD
+A --> B
+B --> C
 ```
 
 ### Adding Photos to Gallery

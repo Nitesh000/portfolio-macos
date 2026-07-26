@@ -1,3 +1,5 @@
+import { ignoreInitialAspectRatio } from "@cloudinary/url-gen/qualifiers/aspectRatio";
+
 const navLinks = [
   {
     id: 1,
@@ -1007,6 +1009,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   contact: {
     isOpen: false,
@@ -1014,6 +1018,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   resume: {
     isOpen: false,
@@ -1021,6 +1027,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   safari: {
     isOpen: false,
@@ -1028,6 +1036,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   photos: {
     isOpen: false,
@@ -1035,6 +1045,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   terminal: {
     isOpen: false,
@@ -1042,6 +1054,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   vscode: {
     isOpen: false,
@@ -1049,6 +1063,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   txtfile: {
     isOpen: false,
@@ -1056,6 +1072,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   imgfile: {
     isOpen: false,
@@ -1063,6 +1081,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   music: {
     isOpen: false,
@@ -1070,6 +1090,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   game: {
     isOpen: false,
@@ -1077,6 +1099,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
   trash: {
     isOpen: false,
@@ -1084,6 +1108,8 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
+    size: { width: 860, height: 540 },
+    position: { x: 100, y: 80 },
   },
 };
 

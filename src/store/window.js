@@ -45,8 +45,22 @@ const useWindowStore = create(
         if (!win) return false;
         return win.isMaximized;
       }),
+
+    resizeWindow: (windowKey, { width, height }) =>
+      set((state) => {
+        const win = state.windows[windowKey];
+        if (!win) return;
+        win.size.width = width;
+        win.size.height = height;
+      }),
+    moveWindow: (windowKey, { x, y }) =>
+      set((state) => {
+        const win = state.windows[windowKey];
+        if (!win) return;
+        win.position.x = x;
+        win.position.y = y;
+      }),
   })),
 );
 
 export default useWindowStore;
-
