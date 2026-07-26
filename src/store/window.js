@@ -11,6 +11,7 @@ const useWindowStore = create(
         const win = state.windows[windowKey];
         if (!win) return;
         win.isOpen = true;
+        win.isMinimized = false;
         win.zIndex = state.nextZIndex++;
         win.data = data ?? win.data;
       }),
@@ -20,6 +21,7 @@ const useWindowStore = create(
         if (!win) return;
         win.isOpen = false;
         win.isMaximized = false;
+        win.isMinimized = false;
         win.zIndex = INITIAL_Z_INDEX;
         win.data = null;
       }),
@@ -28,6 +30,13 @@ const useWindowStore = create(
         const win = state.windows[windowKey];
         if (!win) return;
         win.zIndex = state.nextZIndex++;
+        win.isMinimized = false;
+      }),
+    minimizeWindow: (windowKey) =>
+      set((state) => {
+        const win = state.windows[windowKey];
+        if (!win) return;
+        win.isMinimized = true;
       }),
     toggleMaximizeWindow: (windowKey) =>
       set((state) => {
@@ -56,21 +65,6 @@ const useWindowStore = create(
         const win = state.windows[windowKey];
         if (!win) return false;
         return win.isMaximized;
-      }),
-
-    resizeWindow: (windowKey, { width, height }) =>
-      set((state) => {
-        const win = state.windows[windowKey];
-        if (!win) return;
-        win.size.width = width;
-        win.size.height = height;
-      }),
-    moveWindow: (windowKey, { x, y }) =>
-      set((state) => {
-        const win = state.windows[windowKey];
-        if (!win) return;
-        win.position.x = x;
-        win.position.y = y;
       }),
   })),
 );

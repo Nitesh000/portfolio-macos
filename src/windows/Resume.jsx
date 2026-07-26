@@ -11,7 +11,7 @@ const Resume = () => {
       {/* Header */}
       <div id="window-header">
         <WindowControls target="resume" />
-        <h2>Swastik_Sharma_Frontend_Developer_Resume.pdf</h2>
+        <h2>Nitesh_CV.pdf</h2>
 
         <a
           href={resumePath}
@@ -25,7 +25,7 @@ const Resume = () => {
 
         <a
           href={resumePath}
-          download="Swastik_Sharma_Resume.pdf"
+          download="Nitesh_CV.pdf"
           title="Download Resume"
           onClick={(e) => e.stopPropagation()}
         >

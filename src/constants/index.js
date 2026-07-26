@@ -146,19 +146,19 @@ const blogPosts = [
 const techStack = [
   {
     category: "Frontend",
-    items: ["React.js", "JavaScript", "TypeScript", "HTML5", "Vite"],
+    items: ["React.js", "JavaScript", "TypeScript", "HTML5", "VUE", "Vite"],
   },
   {
     category: "Styling",
-    items: ["Tailwind CSS", "GSAP", "CSS3"],
+    items: ["Tailwind CSS", "MUI", "CSS3"],
   },
   {
     category: "Backend",
-    items: ["Node.js", "Python", "REST APIs"],
+    items: ["Node.js", "Go Lang", "Python", "REST APIs"],
   },
   {
     category: "Database",
-    items: ["SQL"],
+    items: ["SQL", "PG", "MONGODB"],
   },
   {
     category: "Dev Tools",
