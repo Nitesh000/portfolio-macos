@@ -54,22 +54,25 @@ body {
 
   .resize-handle {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 16px;
-    height: 16px;
+    bottom: 4px;
+    right: 4px;
+    width: 14px;
+    height: 14px;
     cursor: se-resize;
     z-index: 9999;
-    background: radial-gradient(circle, #888 1.5px, transparent 1.5px) 4px 4px,
-                radial-gradient(circle, #888 1.5px, transparent 1.5px) 9px 9px;
-    background-size: 16px 16px;
-    background-repeat: no-repeat;
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.15s;
+    border-right: 2px solid rgba(100, 100, 100, 0.6);
+    border-bottom: 2px solid rgba(100, 100, 100, 0.6);
+    border-radius: 0 0 2px 0;
   }
 
   .window-root:hover .resize-handle {
-    opacity: 0.5;
+    opacity: 1;
+  }
+
+  .window-root:has(.resize-handle:hover) .resize-handle {
+    border-color: rgba(60, 60, 60, 0.9);
   }
 
   .window-root {
@@ -235,7 +238,7 @@ body {
   }
 
   #dock {
-    @apply absolute bottom-5 left-1/2 -translate-x-1/2 z-50 select-none max-sm:scale-[0.6];
+    @apply absolute bottom-5 left-1/2 -translate-x-1/2 z-[9999] select-none max-sm:scale-[0.65] max-md:scale-[0.8];
 
     .dock-container {
       @apply bg-white/20 backdrop-blur-md justify-between rounded-2xl p-1.5 flex items-end gap-1.5;
@@ -271,27 +274,31 @@ body {
 
   #window-controls {
     @apply flex gap-1.5 items-center;
-    transition: all 150ms ease-in;
+
+    .close,
+    .minimize,
+    .maximize {
+      @apply size-3.5 rounded-full cursor-pointer;
+      position: relative;
+      transition: filter 120ms ease, transform 100ms ease;
+    }
 
     .close {
-      @apply size-3 rounded-full bg-[#ff5f56] cursor-pointer;
-      position: relative;
+      background-color: #ff5f56;
       border: 0.5px solid #e0443e;
     }
 
     .minimize {
-      @apply size-3 rounded-full bg-[#ffbd2e] cursor-pointer;
-      position: relative;
+      background-color: #ffbd2e;
       border: 0.5px solid #dfa123;
     }
 
     .maximize {
-      @apply size-3 rounded-full bg-[#27c93f] cursor-pointer;
-      position: relative;
+      background-color: #27c93f;
       border: 0.5px solid #1aab29;
     }
 
-    /* base state for icons */
+    /* base state for icons — hidden until group hover */
     .close::after,
     .minimize::after,
     .maximize::after {
@@ -313,23 +320,35 @@ body {
       font-size: 7px;
       color: #4c0002;
       opacity: 1;
-      transform: translate(-50%, -50%);
     }
 
     .minimize::after {
       content: "–";
-      font-size: 8px;
+      font-size: 9px;
       color: #5c3e00;
       opacity: 1;
-      transform: translate(-50%, -50%);
     }
 
     .maximize::after {
       content: "⤢";
-      font-size: 7px;
+      font-size: 8px;
       color: #006400;
       opacity: 1;
-      transform: translate(-50%, -50%);
+    }
+
+    .close:hover {
+      filter: brightness(0.85);
+      transform: scale(1.15);
+    }
+
+    .minimize:hover {
+      filter: brightness(0.85);
+      transform: scale(1.15);
+    }
+
+    .maximize:hover {
+      filter: brightness(0.85);
+      transform: scale(1.15);
     }
   }
 

@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useEffect } from "react";
 import useWindowStore from "#store/window";
 
-// Detect mobile once
+// Hide windows only on very small phones — tablets/desktop use WindowWrapper's effectiveMaximized
 const isMobile = typeof window !== "undefined" && window.innerWidth <= 640;
 
 // Lazy load components

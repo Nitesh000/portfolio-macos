@@ -114,7 +114,7 @@ const useAudioStore = create(
         if (!audio) return;
         try {
           await audio.play();
-        } catch (_) {}
+        } catch { /* autoplay blocked, ignore */ }
       },
       pause: () => {
         const { audio } = get();

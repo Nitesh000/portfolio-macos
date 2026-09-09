@@ -1,5 +1,3 @@
-import { ignoreInitialAspectRatio } from "@cloudinary/url-gen/qualifiers/aspectRatio";
-
 const navLinks = [
   {
     id: 1,
