@@ -62,8 +62,8 @@ body {
     z-index: 9999;
     opacity: 0;
     transition: opacity 0.15s;
-    border-right: 2px solid rgba(100, 100, 100, 0.6);
-    border-bottom: 2px solid rgba(100, 100, 100, 0.6);
+    /* border-right: 2px solid rgba(100, 100, 100, 0.6); */
+    /* border-bottom: 2px solid rgba(100, 100, 100, 0.6); */
     border-radius: 0 0 2px 0;
   }
 
@@ -280,7 +280,9 @@ body {
     .maximize {
       @apply size-3.5 rounded-full cursor-pointer;
       position: relative;
-      transition: filter 120ms ease, transform 100ms ease;
+      transition:
+        filter 120ms ease,
+        transform 100ms ease;
     }
 
     .close {
